@@ -1,0 +1,21 @@
+k8s-node-01 ansible_host=10.10.107.151 ip=10.10.107.151 ansible_ssh_host=10.10.107.151 ansible_ssh_user=root ansible_ssh_pass=111111
+k8s-node-02 ansible_host=10.10.107.152 ip=10.10.107.152 ansible_ssh_host=10.10.107.152 ansible_ssh_user=root ansible_ssh_pass=111111
+k8s-node-03 ansible_host=10.10.107.153 ip=10.10.107.153 ansible_ssh_host=10.10.107.153 ansible_ssh_user=root ansible_ssh_pass=111111
+k8s-node-04 ansible_host=10.10.107.154 ip=10.10.107.154 ansible_ssh_host=10.10.107.154 ansible_ssh_user=root ansible_ssh_pass=111111
+
+[kube-master]
+k8s-node-01
+k8s-node-02
+k8s-node-03
+
+[etcd]
+k8s-node-01
+k8s-node-02
+k8s-node-03
+
+[kube-node]
+k8s-node-04
+
+[k8s-cluster:children]
+kube-master
+kube-node

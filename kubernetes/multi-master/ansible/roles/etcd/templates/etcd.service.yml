@@ -1,0 +1,27 @@
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+EnvironmentFile=-/etc/etcd.env
+#User=etcd
+User=root
+PermissionsStartOnly=true
+# set GOMAXPROCS to number of processors
+#ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/bin/etcd --name=\"${ETCD_NAME}\" --data-dir=\"${ETCD_DATA_DIR}\" --listen-client-urls=\"${ETCD_LISTEN_CLIENT_URLS}\""
+ExecStart=/usr/local/bin/etcd
+
+ExecStartPre=-/usr/bin/docker rm -f {{ etcd_member_name }}
+ExecStop=/usr/bin/docker stop {{ etcd_member_name }}
+#Restart=on-failure
+Restart=always
+RestartSec=15s
+TimeoutStartSec=30s
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

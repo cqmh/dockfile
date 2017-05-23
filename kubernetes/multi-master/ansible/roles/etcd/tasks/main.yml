@@ -1,0 +1,21 @@
+---
+- name: refresh config | create etcd config file
+  template:
+    src: etcd.env.yml
+    dest: /etc/etcd.env
+  notify: restart etcd
+
+- name: Install etcd launch script
+  template:
+    src: etcd.yml
+    dest: /usr/local/bin/etcd
+    owner: root
+    mode: 0755
+  notify: restart etcd
+
+- name: Configure | Copy etcd.service systemd file
+  template:
+    src: etcd.service.yml
+    dest: /etc/systemd/system/etcd.service
+  notify: restart etcd
+  

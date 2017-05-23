@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: stop firewalld service
+      command: systemctl stop firewalld
+
+    - name: disable firewalld service
+      command: systemctl disable firewalld
+  
+    - name: install ntp
+      command: yum -y install ntp
+
+    - name: start ntpd service
+      command: systemctl start ntpd
+
+    - name: enable ntpd service
+      command: systemctl enable ntpd
+  
