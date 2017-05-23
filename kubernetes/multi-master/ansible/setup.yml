@@ -1,5 +1,20 @@
 ---
 - hosts: etcd
+  vars:
+    etcd_config_dir: /etc/ssl/etcd
+    etcd_cert_dir: "{{ etcd_config_dir }}/ssl"
+    etcd_data_dir: /var/lib/etcd
+    etcd_client_url: "http://{{ ip }}:2379"
+    etcd_peer_url: "http://{{ ip }}:2380"
+    etcd_member_name: |-
+      {% for host in groups['etcd'] %}
+      {%   if inventory_hostname == host %}{{"etcd"+loop.index|string }}{% endif %}
+      {% endfor %}
+    etcd_peer_addresses: |-
+      {% for item in groups['etcd'] -%}
+        {{ "etcd"+loop.index|string }}=http://{{ hostvars[item].ip }}:2380{% if not loop.last %},{% endif %}
+      {%- endfor %}
+
   roles:
     - etcd
 
