@@ -14,7 +14,5 @@ docker run \
   {% endif %}
   --name={{ etcd_member_name | default("etcd") }} \
   registry.cn-hangzhou.aliyuncs.com/google-containers/etcd-amd64:3.0.17 \
-  {% if etcd_after_v3 %}
-  {{ etcd_container_bin_dir }}etcd \
-  {% endif %}
+    /usr/local/bin/etcd \
   "$@"
